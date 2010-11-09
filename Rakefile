@@ -6,9 +6,9 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "ninja-deploy"
     gem.summary = %Q{Common shared deployment recipes.}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.description = %Q{Common shared deployment recipes for your pleasure.}
     gem.email = "ninja.loss@gmail.com"
-    gem.homepage = "http://github.com/midas/ninja-deploy"
+    gem.homepage = "http://github.com/ninja-loss/ninja-deploy"
     gem.authors = ["Ninja Loss"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "yard", ">= 0"
