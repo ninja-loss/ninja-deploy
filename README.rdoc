@@ -36,6 +36,23 @@ Require the database recipes in your deploy.rb file:
   cap production log:tail
 
 
+== Version Recipes
+
+Require the database recipes in your deploy.rb file:
+
+  require 'ninja_deploy/recipes/version'
+
+=== Write
+
+  after "version:write"
+
+Writes a public/VERSION file to the remote server.
+
+Dependencies:
+
+* branch_tag_or_sha_to_deploy variable
+
+
 == Note on Patches/Pull Requests
 
 * Fork the project.
