@@ -6,7 +6,6 @@ Common shared deployment recipes.
 == Assumptions
 
 * The user has local tasks to set up variables specfic to the deploying environment (ie. staging, production, etc.).
-  Each documented namespace / task will list out dependencies that must be fulfilled in order to use the task(s).
 
 
 == Database Recipes
@@ -15,7 +14,7 @@ Require the database recipes in your deploy.rb file:
 
   require 'ninja_deploy/recipes/database'
 
-=== Dump
+=== dump
 
 Dependencies:
 
@@ -23,16 +22,16 @@ Dependencies:
 
 ==== To Local File
 
-  cap production db:dump:to_local_file
-
 Dumps the contents of a remote database to a MySQL dump file, scp's the file to /tmp directory.
+
+  cap production db:dump:to_local_file
 
 ==== To Local Database
 
-  cap production db:dump:to_local_db
-
 Dumps the contents of a remote database to a MySQL dump file, scp's the file to /tmp directory, loads the locally configured
 development database and deletes the local and remote dump files.
+
+  cap production db:dump:to_local_db
 
 Dependencies:
 
@@ -45,7 +44,9 @@ Require the database recipes in your deploy.rb file:
 
   require 'ninja_deploy/recipes/log'
 
-=== Tail
+=== tail
+
+Tails the remote server's log for the current environment.
 
   cap production log:tail
 
@@ -56,13 +57,15 @@ Require the database recipes in your deploy.rb file:
 
   require 'ninja_deploy/recipes/passenger'
 
-=== Restart
+=== restart
 
-==== Callback
+Restarts Passenger.
+
+As Callback:
 
   after "passenger:restart"
 
-==== Command-Line
+From Command-Line:
 
   cap production passenger:restart
 
@@ -73,11 +76,13 @@ Require the database recipes in your deploy.rb file:
 
   require 'ninja_deploy/recipes/version'
 
-=== Write
-
-  after "version:write"
+=== write
 
 Writes a public/VERSION file to the remote server.
+
+As Callback:
+
+  after "version:write"
 
 Dependencies:
 
