@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ninja-deploy}
-  s.version = "0.1.0"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ninja Loss"]
@@ -26,6 +26,11 @@ Gem::Specification.new do |s|
      "VERSION",
      "lib/ninja_deploy.rb",
      "lib/ninja_deploy/recipes/database.rb",
+     "lib/ninja_deploy/recipes/log.rb",
+     "lib/ninja_deploy/recipes/passenger.rb",
+     "lib/ninja_deploy/recipes/sass.rb",
+     "lib/ninja_deploy/recipes/version.rb",
+     "lib/ninja_deploy/recipes/whenever.rb",
      "ninja-deploy.gemspec",
      "spec/ninja-deploy_spec.rb",
      "spec/spec.opts",
