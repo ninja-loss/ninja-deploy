@@ -2,6 +2,29 @@
 
 Common shared deployment recipes.
 
+
+== Database Recipes
+
+Require the database recipes in your deploy.rb file:
+
+  require 'ninja_deploy/recipes/database'
+
+=== Dump
+
+==== To Local File
+
+  cap production db:dump:to_local_file
+
+Dumps the contents of a remote database to a MySQL dump file, scp's the file to /tmp directory.
+
+==== To Local Database
+
+  cap production db:dump:to_local_db
+
+Dumps the contents of a remote database to a MySQL dump file, scp's the file to /tmp directory, loads the locally configured
+development database and deletes the local and remote dump files.
+
+
 == Note on Patches/Pull Requests
 
 * Fork the project.
