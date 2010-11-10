@@ -25,6 +25,17 @@ Dumps the contents of a remote database to a MySQL dump file, scp's the file to 
 development database and deletes the local and remote dump files.
 
 
+== Log Recipes
+
+Require the database recipes in your deploy.rb file:
+
+  require 'ninja_deploy/recipes/log'
+
+=== Tail
+
+  cap production log:tail
+
+
 == Note on Patches/Pull Requests
 
 * Fork the project.
