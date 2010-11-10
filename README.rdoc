@@ -70,6 +70,25 @@ From Command-Line:
   cap production passenger:restart
 
 
+== Sass Recipes
+
+Require the database recipes in your deploy.rb file:
+
+  require 'ninja_deploy/recipes/sass'
+
+=== update
+
+Generates the CSS files from the Sass files.
+
+As Callback:
+
+  before "deploy:restart", "sass:update"
+
+From Command-Line:
+
+  cap production sass:update
+
+
 == Version Recipes
 
 Require the database recipes in your deploy.rb file:
