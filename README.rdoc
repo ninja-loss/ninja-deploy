@@ -50,6 +50,23 @@ Require the database recipes in your deploy.rb file:
   cap production log:tail
 
 
+== Passenger Recipes
+
+Require the database recipes in your deploy.rb file:
+
+  require 'ninja_deploy/recipes/passenger'
+
+=== Restart
+
+==== Callback
+
+  after "passenger:restart"
+
+==== Command-Line
+
+  cap production passenger:restart
+
+
 == Version Recipes
 
 Require the database recipes in your deploy.rb file:
