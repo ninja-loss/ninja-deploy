@@ -69,6 +69,18 @@ From Command-Line:
 
   cap production passenger:restart
 
+=== sudo_restart
+
+Restarts Passenger using sudo.
+
+As Callback:
+
+  after "deploy:update_code", "passenger:sudo_restart"
+
+From Command-Line:
+
+  cap production passenger:sudo_restart
+
 
 == Sass Recipes
 
