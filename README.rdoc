@@ -63,7 +63,7 @@ Restarts Passenger.
 
 As Callback:
 
-  after "passenger:restart"
+  after "deploy:update_code", "passenger:restart"
 
 From Command-Line:
 
@@ -82,7 +82,7 @@ Writes a public/VERSION file to the remote server.
 
 As Callback:
 
-  after "version:write"
+  after "deploy:update_code", "version:write"
 
 Dependencies:
 
@@ -102,6 +102,10 @@ Updates the crontab file using whenever.
 As Callback:
 
   after "deploy:update_code", "whenever:update_crontab"
+
+From Command-Line:
+
+  cap production whenever:update_crontab
 
 Dependencies:
 
