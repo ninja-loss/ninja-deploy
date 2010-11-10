@@ -89,6 +89,25 @@ Dependencies:
 * branch_tag_or_sha_to_deploy variable
 
 
+== Whenever Recipes
+
+Require the database recipes in your deploy.rb file:
+
+  require 'ninja_deploy/recipes/whenever'
+
+=== update_crontab
+
+Updates the crontab file using whenever.
+
+As Callback:
+
+  after "deploy:update_code", "whenever:update_crontab"
+
+Dependencies:
+
+* application variable
+
+
 == Note on Patches/Pull Requests
 
 * Fork the project.
