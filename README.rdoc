@@ -3,6 +3,12 @@
 Common shared deployment recipes.
 
 
+== Assumptions
+
+* The user has local tasks to set up variables specfic to the deploying environment (ie. staging, production, etc.).
+  Each documented namespace / task will list out dependencies that must be fulfilled in order to use the task(s).
+
+
 == Database Recipes
 
 Require the database recipes in your deploy.rb file:
@@ -10,6 +16,10 @@ Require the database recipes in your deploy.rb file:
   require 'ninja_deploy/recipes/database'
 
 === Dump
+
+Dependencies:
+
+* The user acting during the deployment must have permissions to dump the MySQL database.
 
 ==== To Local File
 
@@ -23,6 +33,10 @@ Dumps the contents of a remote database to a MySQL dump file, scp's the file to 
 
 Dumps the contents of a remote database to a MySQL dump file, scp's the file to /tmp directory, loads the locally configured
 development database and deletes the local and remote dump files.
+
+Dependencies:
+
+* The configured local development user must have permission to load the database form a MySQL dump file.
 
 
 == Log Recipes
