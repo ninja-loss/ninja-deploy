@@ -38,6 +38,25 @@ Dependencies:
 * The configured local development user must have permission to load the database form a MySQL dump file.
 
 
+== Deploy Recipes
+
+Require the deploy recipes in your deploy.rb file:
+
+  require 'ninja_deploy/recipes/deploy'
+
+=== web:disable
+
+Presents a maintenance page to visitors.
+
+As Callback:
+
+  after "deploy:update_code", "deploy:web:disable"
+
+From Command-Line:
+
+  cap production deploy:web:disable REASON="hardware upgrade" UNTIL="12pm Central Time"
+
+
 == Log Recipes
 
 Require the database recipes in your deploy.rb file:
@@ -53,7 +72,7 @@ Tails the remote server's log for the current environment.
 
 == Passenger Recipes
 
-Require the database recipes in your deploy.rb file:
+Require the passenger recipes in your deploy.rb file:
 
   require 'ninja_deploy/recipes/passenger'
 
@@ -84,7 +103,7 @@ From Command-Line:
 
 == Sass Recipes
 
-Require the database recipes in your deploy.rb file:
+Require the sass recipes in your deploy.rb file:
 
   require 'ninja_deploy/recipes/sass'
 
@@ -101,9 +120,84 @@ From Command-Line:
   cap production sass:update
 
 
+== Thinking Sphinx Recipes
+
+Require the thinking sphinx recipes in your deploy.rb file:
+
+  require 'ninja_deploy/recipes/thinking_sphinx'
+
+=== configure
+
+Generates the Thinking Sphinx configuration file from the sphinx.yml file.
+
+As Callback:
+
+  after "deploy:update_code", "thinking_sphinx:configure"
+
+From Command-Line:
+
+  cap production thinking_sphinx:configure
+
+=== index
+
+Builds the Sphinx index files.
+
+From Command-Line:
+
+  cap production thinking_sphinx:configure
+
+=== start
+
+Start Sphinx searchd daemon.
+
+As Callback:
+
+  after "deploy:update_code", "thinking_sphinx:start"
+
+=== stop
+
+Stops Sphinx searchd daemon.
+
+As Callback:
+
+  after "deploy:update_code", "thinking_sphinx:stop"
+
+=== restart
+
+Stops and starts the Sphinx searchd daemon.
+
+From Command-Line:
+
+  cap production thinking_sphinx:restart
+
+=== rebuild
+
+Stops the Sphinx searchd daemon, re-indexes and then starts the searchd daemon.
+
+From Command-Line:
+
+  cap production thinking_sphinx:rebuild
+
+=== shared_sphinx_folder
+
+Create the folder in the shared directory to store the Sphinx files.
+
+As Callback:
+
+  after "deploy:update_code", "thinking_sphinx:shared_sphinx_folder"
+
+=== symlink_sphinx_indexes
+
+symlink to the folder in the shared directory to store the Sphinx files.
+
+As Callback:
+
+  after "deploy:update_code", "thinking_sphinx:symlink_sphinx_indexes"
+
+
 == Version Recipes
 
-Require the database recipes in your deploy.rb file:
+Require the version recipes in your deploy.rb file:
 
   require 'ninja_deploy/recipes/version'
 
@@ -122,7 +216,7 @@ Dependencies:
 
 == Whenever Recipes
 
-Require the database recipes in your deploy.rb file:
+Require the whenever recipes in your deploy.rb file:
 
   require 'ninja_deploy/recipes/whenever'
 
