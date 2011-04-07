@@ -237,6 +237,24 @@ Dependencies:
 * application variable
 
 
+== RVM Recipes
+
+Require the RVM recipes in your deploy.rb file:
+
+  require 'ninja_deploy/recipes/rvm'
+
+=== trust_rvmrc
+
+As Callback:
+
+  after "deploy:update_code", "rvm:trust_rvmrc"
+
+From Command-Line:
+
+  cap production rvm:trust_rvmrc
+
+
+
 == Note on Patches/Pull Requests
 
 * Fork the project.
