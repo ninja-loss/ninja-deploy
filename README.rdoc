@@ -37,6 +37,18 @@ Dependencies:
 
 * The configured local development user must have permission to load the database form a MySQL dump file.
 
+==== To Staging Database
+
+Dumps the contents of a remote database to a MySQL dump file, scp's the file to /tmp directory of the staging server, loads the locally configured
+staging database and deletes the local and remote dump files.
+
+  cap production db:dump:to_staging_db
+
+Dependencies:
+
+* The configured staging user must have permission to load the database form a MySQL dump file.
+* The staging machine must be able to ssh to the host that is configured in the recipe.
+
 
 == Deploy Recipes
 
