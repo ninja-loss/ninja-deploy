@@ -21,10 +21,21 @@ Capistrano::Configuration.instance( :must_exist ).load do
         puts "*** You can find the dump file at: #{local_file_full_path}"
       end
 
-      # desc "Dump a remote database, fetch the dump file to the staging server and then load it to the staging database"
-      # task :to_staging, :roles => :db, :only => { :primary => true } do
-      #
-      # end
+      desc "Dump a remote database, fetch the dump file to the staging server and then load it to the staging database"
+      task :to_staging_db, :roles => :db, :only => { :primary => true } do
+        staging_file_full_path = dump_database_to_staging
+
+        puts "*** Reading staging database config..."
+        username, password, database, host = host_database_config( staging_host, 'deployer', 'staging' )
+
+        Net::SSH.start( staging_host, 'deployer' ) do |ssh|
+          puts "*** Loading data to staging #{database} database"
+          ssh.exec! "bzip2 -d -c #{staging_file_full_path} | mysql -h #{host} -u #{username} --password='#{password}' #{database}"
+
+          puts "*** Removing staging dump file..."
+          ssh.exec! "rm #{staging_file_full_path}"
+        end
+      end
     end
 
     def dump_database_to_local
@@ -42,6 +53,30 @@ Capistrano::Configuration.instance( :must_exist ).load do
       remove_dump_file
 
       local_file_full_path
+    end
+    
+    def dump_database_to_staging
+      prepare_for_database_dump
+
+      puts "*** Reading database credentials... "
+      user, password, database, host = remote_database_config( rails_env )
+
+      dump_database( password )
+
+      staging_file_full_path = "/tmp/#{File.basename dump_file_bz2_full_path}"
+
+      puts "*** Fetching the dump file from '#{environment_host}:#{dump_file_bz2_full_path}' and putting it at '#{staging_host}:#{staging_file_full_path}'..."
+
+      scp_cmd = "scp #{environment_host}:#{dump_file_bz2_full_path} #{staging_file_full_path}"
+      puts "*** Executing: #{scp_cmd}"
+
+      Net::SSH.start( staging_host, 'deployer' ) do |ssh|
+        ssh.exec! scp_cmd
+      end
+
+      remove_dump_file
+
+      staging_file_full_path
     end
 
     def prepare_for_database_dump
@@ -80,6 +115,18 @@ Capistrano::Configuration.instance( :must_exist ).load do
     def remote_database_config( db )
       remote_config = capture("cat #{shared_path}/config/database.yml")
       database = YAML::load( remote_config )
+      return database["#{db}"]['username'], database["#{db}"]['password'], database["#{db}"]['database'], database["#{db}"]['host']
+    end
+    
+    def host_database_config( host, user, db )
+      remote_config = nil
+
+      Net::SSH.start( host, user ) do |ssh|
+        remote_config = ssh.exec!( "cat #{shared_path}/config/database.yml" )
+      end
+
+      database = YAML::load( remote_config )
+
       return database["#{db}"]['username'], database["#{db}"]['password'], database["#{db}"]['database'], database["#{db}"]['host']
     end
   end
