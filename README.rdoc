@@ -158,6 +158,18 @@ From Command-Line:
 
   cap production thinking_sphinx:configure
 
+=== run
+
+Stops Sphinx, if running, then starts Sphinx.
+
+From Command-Line:
+
+  cap production thinking_sphinx:run
+
+As Callback:
+
+  after "deploy:update_code", "thinking_sphinx:run"
+
 === start
 
 Start Sphinx searchd daemon.

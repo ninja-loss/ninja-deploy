@@ -10,6 +10,11 @@ Capistrano::Configuration.instance( :must_exist ).load do
       rake "thinking_sphinx:index"
     end
 
+    desc "Run the Sphinx daemon"
+    task :run do
+      rake "thinking_sphinx:run"
+    end
+
     desc "Start the Sphinx daemon"
     task :start do
       rake "thinking_sphinx:start"
