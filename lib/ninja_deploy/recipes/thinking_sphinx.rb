@@ -11,7 +11,7 @@ Capistrano::Configuration.instance( :must_exist ).load do
     end
 
     desc "Run the Sphinx daemon"
-    task :run do
+    task :ts_run do
       rake "thinking_sphinx:run"
     end
 
