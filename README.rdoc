@@ -164,11 +164,11 @@ Stops Sphinx, if running, then starts Sphinx.
 
 From Command-Line:
 
-  cap production thinking_sphinx:run
+  cap production thinking_sphinx:ts_run
 
 As Callback:
 
-  after "deploy:update_code", "thinking_sphinx:run"
+  after "deploy:update_code", "thinking_sphinx:ts_run"
 
 === start
 
