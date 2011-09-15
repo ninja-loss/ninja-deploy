@@ -186,6 +186,15 @@ As Callback:
 
   after "deploy:update_code", "thinking_sphinx:stop"
 
+=== stop_using_previous_config
+
+Stops thinking sphinx using the config file in the previous release.  Useful when there is not a
+configuration file in the current release yet.
+
+As Callback:
+
+  after "deploy:update_code", "thinking_sphinx:stop_using_previous_config"
+
 === restart
 
 Stops and starts the Sphinx searchd daemon.

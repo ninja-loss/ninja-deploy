@@ -25,6 +25,11 @@ Capistrano::Configuration.instance( :must_exist ).load do
       rake "thinking_sphinx:stop"
     end
 
+    desc "Stops thinking sphinx using the config file in the previous release (as there is not one configured in this release yet)."
+    task :stop_using_previous_config do
+      run "cd #{previous_release} && bundle exec rake RAILS_ENV=#{rails_env} thinking_sphinx:stop"
+    end
+
     desc "Stop and then start the Sphinx daemon"
     task :restart do
       stop
@@ -33,9 +38,7 @@ Capistrano::Configuration.instance( :must_exist ).load do
 
     desc "Stop, re-index and then start the Sphinx daemon"
     task :rebuild do
-      stop
-      index
-      start
+      rake "thinking_sphinx:rebuild"
     end
 
     desc "Add the shared folder for sphinx files for the production environment"
