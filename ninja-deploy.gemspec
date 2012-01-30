@@ -29,7 +29,6 @@ Gem::Specification.new do |s|
     "lib/ninja_deploy/recipes/log.rb",
     "lib/ninja_deploy/recipes/passenger.rb",
     "lib/ninja_deploy/recipes/rvm.rb",
-    "lib/ninja_deploy/recipes/sass.rb",
     "lib/ninja_deploy/recipes/thinking_sphinx.rb",
     "lib/ninja_deploy/recipes/version.rb",
     "lib/ninja_deploy/recipes/whenever.rb",
@@ -47,12 +46,14 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<cape>, ["~> 1"])
       s.add_development_dependency(%q<gem-dandy>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
       s.add_development_dependency(%q<rspec>, ["= 1.3.2"])
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
       s.add_development_dependency(%q<yard>, [">= 0"])
     else
+      s.add_dependency(%q<cape>, ["~> 1"])
       s.add_dependency(%q<gem-dandy>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<rspec>, ["= 1.3.2"])
@@ -60,6 +61,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<yard>, [">= 0"])
     end
   else
+    s.add_dependency(%q<cape>, ["~> 1"])
     s.add_dependency(%q<gem-dandy>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<rspec>, ["= 1.3.2"])

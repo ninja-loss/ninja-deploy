@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+gem 'cape', '~> 1'
+
 group :development do
 	gem 'gem-dandy'
 	gem 'jeweler'

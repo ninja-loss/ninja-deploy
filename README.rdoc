@@ -115,9 +115,11 @@ From Command-Line:
 
 == Sass Recipes
 
-Require the sass recipes in your deploy.rb file:
+Include the Sass Rake tasks in your deploy.rb:
 
-  require 'ninja_deploy/recipes/sass'
+  NinjaDeploy do
+    mirror_rake_tasks :sass
+  end
 
 === update
 
@@ -134,9 +136,13 @@ From Command-Line:
 
 == Thinking Sphinx Recipes
 
-Require the thinking sphinx recipes in your deploy.rb file:
+Require the thinking sphinx recipes in your deploy.rb file and include the Thinking Sphinx Rake tasks:
 
   require 'ninja_deploy/recipes/thinking_sphinx'
+
+  NinjaDeploy do
+    mirror_rake_tasks :thinking_sphinx
+  end
 
 === configure
 
