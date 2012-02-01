@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{ninja-deploy}
+  s.name = "ninja-deploy"
   s.version = "1.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ninja Loss"]
-  s.date = %q{2011-09-15}
-  s.description = %q{Common shared deployment recipes for your pleasure.}
-  s.email = %q{ninja.loss@gmail.com}
+  s.date = "2011-09-15"
+  s.description = "Common shared deployment recipes for your pleasure."
+  s.email = "ninja.loss@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE",
     "README.rdoc"
@@ -40,10 +40,10 @@ Gem::Specification.new do |s|
     "spec/spec.opts",
     "spec/spec_helper.rb"
   ]
-  s.homepage = %q{http://github.com/ninja-loss/ninja-deploy}
+  s.homepage = "http://github.com/ninja-loss/ninja-deploy"
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.0}
-  s.summary = %q{Common shared deployment recipes.}
+  s.rubygems_version = "1.8.10"
+  s.summary = "Common shared deployment recipes."
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
