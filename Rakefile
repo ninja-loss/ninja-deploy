@@ -1,45 +1,40 @@
-require 'rubygems'
-require 'rake'
-
 begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "ninja-deploy"
-    gem.summary = %Q{Common shared deployment recipes.}
-    gem.description = %Q{Common shared deployment recipes for your pleasure.}
-    gem.email = "ninja.loss@gmail.com"
-    gem.homepage = "http://github.com/ninja-loss/ninja-deploy"
-    gem.authors = ["Ninja Loss"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
-    gem.add_development_dependency "yard", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-  Jeweler::GemcutterTasks.new
+  require 'bundler/gem_tasks'
 rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
-
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
-
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-end
-
-task :spec => :check_dependencies
-
-task :default => :spec
+require 'rspec/core/rake_task'
 
 begin
   require 'yard'
-  YARD::Rake::YardocTask.new
 rescue LoadError
-  task :yardoc do
-    abort "YARD is not available. In order to run yardoc, you must: sudo gem install yard"
+else
+  namespace :build do
+    YARD::Rake::YardocTask.new :doc
   end
 end
+
+def define_spec_task(name, options={})
+  RSpec::Core::RakeTask.new name do |t|
+    t.rspec_opts = ['--color']
+    unless options[:debug] == false
+      begin
+        require 'ruby-debug'
+      rescue LoadError
+      else
+        t.rspec_opts << '--debug'
+      end
+    end
+    t.pattern = %w(spec/*_spec.rb spec/**/*_spec.rb)
+  end
+end
+
+desc 'Run all specs'
+define_spec_task :spec
+
+desc 'Run all specs'
+task ''       => :spec
+task :default => :spec
+
+# Support the 'gem test' command.
+desc ''
+define_spec_task :test, :debug => false
