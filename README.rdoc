@@ -121,6 +121,11 @@ Include the Sass Rake tasks in your deploy.rb:
     mirror_rake_tasks :sass
   end
 
+Run Rake via Bundler, locally and/or remotely, using a configuration:
+
+  NinjaDeploy.local_rake_executable  = '/usr/bin/env bundle exec rake'
+  NinjaDeploy.remote_rake_executable = '/usr/bin/env bundle exec rake'
+
 === update
 
 Generates the CSS files from the Sass files.
@@ -143,6 +148,11 @@ Require the thinking sphinx recipes in your deploy.rb file and include the Think
   NinjaDeploy do
     mirror_rake_tasks :thinking_sphinx
   end
+
+Run Rake via Bundler, locally and/or remotely, using a configuration:
+
+  NinjaDeploy.local_rake_executable  = '/usr/bin/env bundle exec rake'
+  NinjaDeploy.remote_rake_executable = '/usr/bin/env bundle exec rake'
 
 === configure
 
