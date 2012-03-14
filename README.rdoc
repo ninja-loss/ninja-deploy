@@ -1,4 +1,4 @@
-= https://gemnasium.com/ninja-loss/ninja-deploy.png https://secure.travis-ci.org/ninja-loss/ninja-deploy.png?branch=master ninja-deploy
+= ninja-deploy
 
 Common shared deployment recipes.
 
