@@ -1,6 +1,9 @@
 Capistrano::Configuration.instance( :must_exist ).load do
+
   namespace :db do
+
     namespace :dump do
+
       desc 'Dump a remote database, fetch the dump file to local and then load it to the development database'
       task :to_local_db, :roles => :db, :only => { :primary => true } do
         local_file_full_path = dump_database_to_local
@@ -36,7 +39,8 @@ Capistrano::Configuration.instance( :must_exist ).load do
           ssh.exec! "rm #{staging_file_full_path}"
         end
       end
-    end
+
+    end # namespace :dump
 
     def dump_database_to_local
       prepare_for_database_dump
@@ -54,7 +58,7 @@ Capistrano::Configuration.instance( :must_exist ).load do
 
       local_file_full_path
     end
-    
+
     def dump_database_to_staging
       prepare_for_database_dump
 
@@ -91,7 +95,26 @@ Capistrano::Configuration.instance( :must_exist ).load do
 
     def dump_database( password )
       puts "*** Dumping #{environment_database} database..."
-      run "mysqldump --add-drop-table -u #{environment_db_user} -h #{environment_db_host.gsub('-master', '-replica')} -p#{password} #{environment_database} | bzip2 -c > #{dump_file_bz2_full_path}"
+      unless tables_to_dump.nil?
+        puts "  * Only tables: #{tables_to_dump}"
+      end
+      run dump_database_cmd( password )
+    end
+
+    def dump_database_cmd( password )
+      "mysqldump --add-drop-table -u #{environment_db_user} -h #{environment_db_host.gsub('-master', '-replica')} -p#{password} #{environment_database} #{tables_to_dump} | bzip2 -c > #{dump_file_bz2_full_path}"
+    end
+
+    def tables_to_dump
+      require 'rubygems'
+      require 'active_record'
+      except = ENV['EXCEPT']
+      except = except.nil? ? nil : Array( except.split( ',' ) )
+      ActiveRecord::Base.establish_connection( local_database_config_hash['development'] )
+
+      except.nil? ?
+        nil :
+        (ActiveRecord::Base.connection.tables - except).join( ',' )
     end
 
     def remove_dump_file
@@ -99,12 +122,16 @@ Capistrano::Configuration.instance( :must_exist ).load do
       run "rm #{dump_file_bz2_full_path}"
     end
 
+    def local_database_config_hash
+      YAML::load_file( 'config/database.yml' )
+    end
+
     # Reads the database credentials from the local config/database.yml file
     # +db+ the name of the environment to get the credentials for
     # Returns username, password, database
     #
     def database_config( db )
-      database = YAML::load_file( 'config/database.yml' )
+      database = local_database_config_hash
       return database["#{db}"]['username'], database["#{db}"]['password'], database["#{db}"]['database'], database["#{db}"]['host']
     end
 
@@ -117,7 +144,7 @@ Capistrano::Configuration.instance( :must_exist ).load do
       database = YAML::load( remote_config )
       return database["#{db}"]['username'], database["#{db}"]['password'], database["#{db}"]['database'], database["#{db}"]['host']
     end
-    
+
     def host_database_config( host, user, db )
       remote_config = nil
 
@@ -129,5 +156,7 @@ Capistrano::Configuration.instance( :must_exist ).load do
 
       return database["#{db}"]['username'], database["#{db}"]['password'], database["#{db}"]['database'], database["#{db}"]['host']
     end
+
   end
+
 end
