@@ -95,9 +95,6 @@ Capistrano::Configuration.instance( :must_exist ).load do
 
     def dump_database( password )
       puts "*** Dumping #{environment_database} database..."
-      unless tables_to_dump.nil?
-        puts "  * Only tables: #{tables_to_dump}"
-      end
       run dump_database_cmd( password )
     end
 
@@ -114,7 +111,7 @@ Capistrano::Configuration.instance( :must_exist ).load do
 
       except.nil? ?
         nil :
-        (ActiveRecord::Base.connection.tables - except).join( ',' )
+        (ActiveRecord::Base.connection.tables - except).join( ' ' )
     end
 
     def remove_dump_file
